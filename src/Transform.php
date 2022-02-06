@@ -2,7 +2,8 @@
 class Transform {
     private $str, $result;
 
-    public function revertCharacters($str=''): string {
+    public function revertCharacters($str=''): string
+    {
         if(strlen($str) === 0) return '';
 
         $this->str = $str; 
@@ -15,7 +16,7 @@ class Transform {
                 $position = 0;
 
                 for($i = count($letters)-1; $i >= 0; $i--) {
-                    if(preg_match('/[^\w]/iu', $letters[$i])) {
+                    if(preg_match('/[^\p{L}]/iu', $letters[$i])) {
                         $this->result[$k][$i] = $letters[$i];
                     } else {
 
@@ -49,14 +50,15 @@ class Transform {
         return $this->result['TEXT'];
     }
 
-    private function registerCheck($arr) {
+    private function registerCheck($arr): int
+    {
         if($arr[0] != $arr[1]) {
-            if(preg_match('/[A-ZА-ЯЁ]/u', $arr[0], $m)) {
+            if(preg_match('/\p{Lu}/u', $arr[0], $m)) {
                 return 1;
             } else {
                 return 2;
             }
         }
-        return false;
+        return 0;
     }
 }
